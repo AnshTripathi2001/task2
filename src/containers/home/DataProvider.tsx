@@ -3,7 +3,7 @@ import React, { createContext, useContext, useState } from "react";
 const initialValues = {
   requisitionDetails: {
     gender: "",
-    noOfOpenings: 0,
+    noOfOpenings: 67,
     requisitionTitle: "",
     urgency: "",
   },
@@ -15,7 +15,7 @@ const initialValues = {
   interviewSettings: {
     interviewDuration: "",
     interviewLanguage: "",
-    interviewMode: "",
+    interviewMode: "online",
   },
 };
 
@@ -28,7 +28,7 @@ const DataProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [state, setState] = useState(initialValues);
-
+  
   return (
     <DataContext.Provider value={{ state, setState }}>
       {children}

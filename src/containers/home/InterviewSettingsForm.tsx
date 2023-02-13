@@ -1,7 +1,8 @@
 import { Button, Flex, Box } from "@chakra-ui/react";
-import React from "react";
+import React,{useEffect} from "react";
 import FormSelect from "../../components/formComponents/FormSelect";
 import { useFormik } from "formik";
+import * as Yup from 'yup'
 import { PageNumbers } from "../../interface/home";
 import { IInterViewSettings } from "../../interface/forms";
 import {
@@ -9,6 +10,7 @@ import {
   interviewLanguageOptions,
   interviewModeOptions,
 } from "./constants";
+import { useData } from "./DataProvider";
 
 const InterviewDetailsForm: React.FC<{
   handleTab: (n: PageNumbers) => void;
@@ -26,12 +28,34 @@ const InterviewDetailsForm: React.FC<{
       interviewDuration: "",
       interviewLanguage: "",
     },
+    validationSchema: Yup.object().shape({
+      interviewMode: Yup.string().required(" Interview Mode is required"),
+      interviewLanguage: Yup.string().required(" Interview Language is required"),
+      interviewDuration: Yup.string().required(" Interview Duration is required"),
+    }),
     onSubmit: (values) => {
-      console.log({ values });
+     
       alert("Form successfully submitted");
     },
   });
+const setState = useData().setState;
+  useEffect(()=>{
+      
+        
+    setState(prevData=>({
+      ...prevData,
 
+      interviewSettings:{
+        interviewDuration:values.interviewDuration,
+        interviewLanguage:values.interviewLanguage,
+        interviewMode:values.interviewMode
+      }
+
+     
+       } ))
+    
+  },[values])
+  
   return (
     <Box width="100%" as="form" onSubmit={handleSubmit as any}>
       <Box width="100%">
@@ -72,7 +96,7 @@ const InterviewDetailsForm: React.FC<{
           <Button colorScheme="gray" type="button" onClick={() => handleTab(1)}>
             Previous
           </Button>
-          <Button colorScheme="red" type="submit">
+          <Button colorScheme="red" type="submit" >
             Submit
           </Button>
         </Flex>

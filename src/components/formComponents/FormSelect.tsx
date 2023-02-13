@@ -31,6 +31,7 @@ const FormSelect: React.FC<IFormSelectProps> = ({
 
   const handleChange = (value: any) => {
     onChange && onChange(name, value?.value);
+    
   };
   const handleBlur = () => {
     onBlur && onBlur(name, true);
@@ -82,11 +83,13 @@ const FormSelect: React.FC<IFormSelectProps> = ({
           }),
           valueContainer: (base) => ({
             ...base,
-            paddingLeft: "20px",
+            paddingLeft: "20px"
           }),
           option: (base, { isFocused }) => ({
             ...base,
-            fontSize: ".875rem",
+            fontSize: "0.875rem",
+            zIndex:"1",
+
             fontWeight: "500",
           }),
         }}

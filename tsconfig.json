@@ -1,5 +1,9 @@
 {
   "compilerOptions": {
+    "suppressImplicitAnyIndexErrors": true,
+    "strictNullChecks":false,
+    "strictPropertyInitialization": false,
+
     "target": "es5",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
@@ -21,8 +25,25 @@
       "@components/*": ["src/components/*"],
       "@containers/*": ["src/containers/*"],
       "@store/*": ["src/store/*"]
-    }
+      
+    
+
+       
+      
+      
+       
+      
+      
+    },
+    
   },
+  
+    
+  
+  
+  
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules"],
+  
+  
 }

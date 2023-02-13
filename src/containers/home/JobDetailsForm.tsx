@@ -1,15 +1,19 @@
 import { Button, Flex, Box } from "@chakra-ui/react";
-import React from "react";
+import React, {useEffect} from "react";
 import FormInput from "../../components/formComponents/FormInput";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { PageNumbers } from "../../interface/home";
 import { IJobDetails } from "../../interface/forms";
+import { useData } from "./DataProvider";
 
-const JobDetailsForm: React.FC<{
-  handleTab: (n: PageNumbers) => void;
-}> = ({ handleTab }) => {
-  const { handleChange, errors, touched, handleBlur, handleSubmit, values } =
+const JobDetailsForm: React.FC<{ handleTab: (n: PageNumbers) => void;}> = ({ handleTab }) => {
+  const { errors,
+    touched,
+    handleSubmit,
+    handleChange,
+    values,
+  handleBlur} =
     useFormik<IJobDetails>({
       initialValues: {
         jobTitle: "",
@@ -20,14 +24,30 @@ const JobDetailsForm: React.FC<{
         jobTitle: Yup.string().required("Job Title is required"),
         jobDetails: Yup.string().required("Job Details is required"),
         jobLocation: Yup.string().required("Job Location is required"),
-        jobPosition: Yup.string().required("Job position is required"),
       }),
       onSubmit: (values) => {
-        console.log({ values });
-        handleTab(2);
+        handleTab(2)
+        
       },
     });
 
+   const setState = useData().setState
+    useEffect(()=>{
+      
+        
+        setState(prevData=>({
+          ...prevData,
+          jobDetails:{
+            jobTitle:values.jobTitle,
+            jobDetails:values.jobDetails,
+            jobLocation:values.jobLocation,
+          },
+         
+    }))
+        
+      },[values])
+      
+      
   return (
     <Box width="100%" as="form" onSubmit={handleSubmit as any}>
       <Box width="100%">
@@ -65,7 +85,7 @@ const JobDetailsForm: React.FC<{
           <Button colorScheme="gray" type="button" onClick={() => handleTab(0)}>
             Previous
           </Button>
-          <Button colorScheme="red" type="submit">
+          <Button colorScheme="red" type="submit" >
             Next
           </Button>
         </Flex>

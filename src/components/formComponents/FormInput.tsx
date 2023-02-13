@@ -2,6 +2,7 @@ import React from "react";
 import { Input } from "@chakra-ui/react";
 import FormWrapper from "./FormWrapper";
 import { IFormInputProps } from "@src/interface/forms";
+import { useData } from "@src/containers/home/DataProvider";
 
 const FormInput = React.forwardRef<HTMLInputElement, IFormInputProps>(
   (
@@ -11,7 +12,7 @@ const FormInput = React.forwardRef<HTMLInputElement, IFormInputProps>(
       placeholder,
       type,
       value,
-      onChange,
+     onChange,
       onBlur,
       error,
       touched,
@@ -22,6 +23,7 @@ const FormInput = React.forwardRef<HTMLInputElement, IFormInputProps>(
     },
     ref
   ) => {
+   
     return (
       <FormWrapper
         isInvalid={Boolean(error && touched)}

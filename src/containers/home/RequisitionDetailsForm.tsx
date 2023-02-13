@@ -1,5 +1,5 @@
 import { Button, Flex, Box } from "@chakra-ui/react";
-import React from "react";
+import React, { Dispatch, SetStateAction ,useState,useEffect} from "react";
 import FormInput from "../../components/formComponents/FormInput";
 import FormSelect from "../../components/formComponents/FormSelect";
 import { useFormik } from "formik";
@@ -7,6 +7,9 @@ import * as Yup from "yup";
 import { PageNumbers } from "../../interface/home";
 import { IRequisitionDetails } from "../../interface/forms";
 import { genderOptions, urgencyOptions } from "./constants";
+import { validateConfig } from "next/dist/server/config-shared";
+import { useData } from "./DataProvider";
+import PreviewCard from "./PreviewCard";
 
 const RequisitionDetailsForm: React.FC<{
   handleTab: (n: PageNumbers) => void;
@@ -19,15 +22,14 @@ const RequisitionDetailsForm: React.FC<{
     handleSubmit,
     values,
     setFieldTouched,
-    setFieldValue,
-    isValid,
-  } = useFormik<IRequisitionDetails>({
+    setFieldValue} = useFormik<IRequisitionDetails>({
     initialValues: {
       requisitionTitle: "",
       noOfOpenings: 0,
       urgency: "",
       gender: "",
     },
+    
     validationSchema: Yup.object().shape({
       requisitionTitle: Yup.string().required("Requisition title is required"),
       noOfOpenings: Yup.number()
@@ -42,17 +44,44 @@ const RequisitionDetailsForm: React.FC<{
       handleTab(1);
     },
   });
+  
+ const setState = useData()?.setState;
+ 
+ 
+ 
+ 
+
+useEffect(()=>{
+
+  
+  
+  setState((prevData)=>({
+    ...prevData,
+    requisitionDetails:{
+      requisitionTitle:values.requisitionTitle,
+      noOfOpenings : values.noOfOpenings,
+    gender :values.gender,
+    urgency :values.urgency,
+    }
+  }
+    
+    
+   ) )
+  
+},[values])
 
   return (
     <Box width="100%" as="form" onSubmit={handleSubmit as any}>
       <Box width="100%">
+        
         <FormInput
           label="Requisition Title"
           placeholder="Enter requisition title"
           name="requisitionTitle"
           onChange={handleChange}
+         
           onBlur={handleBlur}
-          value={values?.requisitionTitle}
+          value={values.requisitionTitle}
           error={errors?.requisitionTitle}
           touched={touched?.requisitionTitle}
         />
